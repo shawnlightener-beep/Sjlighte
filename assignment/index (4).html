@@ -1,0 +1,614 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Grade 6 RLA STAAR Review (High Readiness)</title>
+  <style>
+    :root{
+      --bg:#0b1220;
+      --card:#111a2e;
+      --muted:#a9b3c7;
+      --text:#eef2ff;
+      --accent:#7dd3fc;
+      --good:#22c55e;
+      --bad:#ef4444;
+      --warn:#f59e0b;
+      --border:rgba(255,255,255,0.10);
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
+      background: radial-gradient(1200px 700px at 20% 0%, #162a52 0%, var(--bg) 55%);
+      color:var(--text);
+      line-height:1.4;
+    }
+    header{
+      padding:24px 16px 12px;
+      max-width:1000px;
+      margin:0 auto;
+    }
+    h1{margin:0 0 6px; font-size: 1.4rem;}
+    .sub{color:var(--muted); margin:0; font-size:0.95rem;}
+    .wrap{max-width:1000px; margin:0 auto; padding: 12px 16px 40px;}
+    .row{display:grid; grid-template-columns: 1.4fr 1fr; gap:12px;}
+    @media (max-width: 900px){ .row{grid-template-columns:1fr;} }
+
+    .card{
+      background: rgba(17,26,46,0.92);
+      border:1px solid var(--border);
+      border-radius:16px;
+      padding:16px;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.25);
+    }
+
+    .progressTop{
+      display:flex; align-items:center; gap:12px;
+      margin-top:12px;
+    }
+    .bar{
+      flex:1;
+      height:12px;
+      background: rgba(255,255,255,0.10);
+      border-radius:999px;
+      overflow:hidden;
+      border:1px solid var(--border);
+    }
+    .bar > div{height:100%; width:0%; background: linear-gradient(90deg, var(--accent), #a78bfa); transition: width .25s ease;}
+    .pill{
+      font-size:0.9rem;
+      padding:6px 10px;
+      border-radius:999px;
+      border:1px solid var(--border);
+      color: var(--text);
+      background: rgba(255,255,255,0.06);
+      white-space:nowrap;
+    }
+
+    details{
+      border:1px solid var(--border);
+      border-radius:14px;
+      overflow:hidden;
+      background: rgba(255,255,255,0.04);
+      margin: 10px 0;
+    }
+    details summary{
+      cursor:pointer;
+      padding:12px 14px;
+      font-weight:700;
+      list-style:none;
+    }
+    details summary::-webkit-details-marker{display:none;}
+    .passage{
+      padding: 0 14px 14px;
+      color: var(--text);
+      font-size:1.02rem;
+    }
+    .passage p{margin:10px 0;}
+    .passageTitle{color: var(--accent); font-weight:800; margin-top:0;}
+    .unlockRow{display:flex; gap:10px; align-items:center; padding: 0 14px 14px;}
+    .unlockRow label{color:var(--muted); font-size:0.95rem;}
+
+    .qHead{
+      display:flex; align-items:flex-start; justify-content:space-between; gap:10px;
+      margin-bottom:8px;
+    }
+    .qNum{font-weight:800; color: var(--accent);}
+    .qText{margin:0; font-size:1.05rem;}
+    .meta{color:var(--muted); font-size:0.9rem;}
+    .choices{margin-top:10px; display:grid; gap:8px;}
+    .choice{
+      border:1px solid var(--border);
+      background: rgba(255,255,255,0.04);
+      border-radius:12px;
+      padding:10px 12px;
+      display:flex;
+      gap:10px;
+      align-items:flex-start;
+      cursor:pointer;
+      transition: transform .04s ease;
+    }
+    .choice:hover{transform: translateY(-1px);}
+    .choice input{margin-top:3px;}
+    .openbox{
+      width:100%;
+      min-height:110px;
+      border-radius:12px;
+      border:1px solid var(--border);
+      background: rgba(255,255,255,0.04);
+      color: var(--text);
+      padding:10px 12px;
+      font-size:1rem;
+      resize:vertical;
+      outline:none;
+    }
+
+    .btnRow{display:flex; gap:10px; flex-wrap:wrap; margin-top:12px;}
+    button{
+      border:1px solid var(--border);
+      background: rgba(255,255,255,0.06);
+      color: var(--text);
+      padding:10px 12px;
+      border-radius:12px;
+      cursor:pointer;
+      font-weight:700;
+    }
+    button.primary{
+      background: linear-gradient(90deg, #0ea5e9, #8b5cf6);
+      border: none;
+    }
+    button:disabled{
+      opacity:0.5;
+      cursor:not-allowed;
+    }
+
+    .feedback{
+      margin-top:12px;
+      border:1px solid var(--border);
+      border-radius:14px;
+      padding:12px;
+      background: rgba(255,255,255,0.04);
+    }
+    .fbGood{border-color: rgba(34,197,94,0.45);}
+    .fbBad{border-color: rgba(239,68,68,0.45);}
+    .fbWarn{border-color: rgba(245,158,11,0.45);}
+    .tag{
+      display:inline-block;
+      font-weight:800;
+      padding:3px 8px;
+      border-radius:999px;
+      margin-right:8px;
+      font-size:0.85rem;
+    }
+    .tag.good{background: rgba(34,197,94,0.18); color: #86efac;}
+    .tag.bad{background: rgba(239,68,68,0.18); color: #fecaca;}
+    .tag.warn{background: rgba(245,158,11,0.18); color: #fde68a;}
+
+    .small{font-size:0.92rem; color: var(--muted);}
+    .divider{height:1px; background: var(--border); margin: 12px 0;}
+    .footerNote{color: var(--muted); font-size:0.9rem; margin-top:10px;}
+
+    .resultBig{
+      font-size:2rem;
+      font-weight:900;
+      margin: 6px 0 0;
+    }
+  </style>
+</head>
+<body>
+<header>
+  <h1>Grade 6 RLA STAAR Review Assessment (High Readiness Focus)</h1>
+  <p class="sub">Read the passages first, then answer questions. You’ll get feedback after each question and a final score at the end.</p>
+
+  <div class="progressTop">
+    <div class="bar" aria-label="progress bar"><div id="barFill"></div></div>
+    <div class="pill" id="progressPill">0 / 24 answered</div>
+  </div>
+</header>
+
+<div class="wrap">
+  <div class="row">
+    <section class="card" aria-label="Passages">
+      <h2 style="margin:0 0 6px;">Passages</h2>
+      <p class="meta" style="margin:0 0 10px;">Open each passage and read it carefully before starting its questions.</p>
+
+      <details open>
+        <summary>Passage 1: The Tryout</summary>
+        <div class="passage">
+          <p class="passageTitle">The Tryout</p>
+          <p>Marcus tightened the laces on his cleats as he stared at the baseball field. He had practiced for weeks, but now that tryouts had finally arrived, his confidence began to fade.</p>
+          <p>“Relax,” his older sister called from the bleachers. “You’ve prepared for this.”</p>
+          <p>Marcus stepped up to bat. The pitcher wound up and threw a fastball. Marcus swung too early. Strike one.</p>
+          <p>A murmur rippled through the small crowd. Marcus felt heat rise in his face. For a moment, doubt pressed against him heavier than his bat.</p>
+          <p>He inhaled slowly and repeated his coach’s advice in his mind: <em>Focus on the ball, not the crowd.</em></p>
+          <p>The next pitch came faster than he expected. Marcus forced himself to stay steady. He watched the seams spin toward him and swung.</p>
+          <p><strong>Crack!</strong></p>
+          <p>The ball soared in a sharp arc across the outfield grass. Marcus sprinted toward first base, legs pumping, heart pounding—not with fear this time, but with resolve.</p>
+          <p>Later, as he walked off the field uncertain about the results, Marcus realized something unexpected. Whether he made the team or not, he had confronted his fear instead of retreating from it.</p>
+        </div>
+        <div class="unlockRow">
+          <input id="unlockP1" type="checkbox" />
+          <label for="unlockP1"><strong>I have read Passage 1</strong> (unlocks Questions 1–9)</label>
+        </div>
+      </details>
+
+      <details>
+        <summary>Passage 2: Why Bees Matter</summary>
+        <div class="passage">
+          <p class="passageTitle">Why Bees Matter</p>
+          <p>Bees may be small, but their impact on the planet is enormous. As pollinators, bees transfer pollen between flowers, enabling plants to reproduce. Without this process, many fruits and vegetables would not develop.</p>
+          <p>Scientists estimate that approximately one-third of the food consumed worldwide depends on pollination. Crops such as almonds, blueberries, cucumbers, and apples rely heavily on bees. In fact, some farmers transport beehives across states to ensure proper pollination.</p>
+          <p>However, bee populations have declined significantly over the past decade. Habitat destruction, pesticide exposure, disease, and climate change contribute to this decline. If bee populations continue to shrink, food prices could rise and ecosystems may become unstable.</p>
+          <p>Researchers are developing solutions, including planting pollinator-friendly gardens, reducing harmful chemicals, and supporting sustainable farming practices. Protecting bees ultimately protects global food security.</p>
+        </div>
+        <div class="unlockRow">
+          <input id="unlockP2" type="checkbox" />
+          <label for="unlockP2"><strong>I have read Passage 2</strong> (unlocks Questions 10–18)</label>
+        </div>
+      </details>
+
+      <div class="footerNote">
+        Tip: Read the passage once straight through, then reread the specific lines connected to each question.
+      </div>
+    </section>
+
+    <section class="card" aria-label="Questions">
+      <div style="display:flex; align-items:flex-start; justify-content:space-between; gap:10px;">
+        <div>
+          <h2 style="margin:0;">Questions</h2>
+          <p class="meta" id="sectionLabel" style="margin:4px 0 0;">Question 1 of 24</p>
+        </div>
+        <div class="pill" id="scorePill">Score: —</div>
+      </div>
+
+      <div class="divider"></div>
+
+      <div id="questionArea"></div>
+
+      <div class="btnRow">
+        <button id="prevBtn">← Previous</button>
+        <button id="checkBtn" class="primary">Check Answer</button>
+        <button id="nextBtn">Next →</button>
+      </div>
+
+      <div id="feedbackArea"></div>
+
+      <div class="divider"></div>
+
+      <button id="finishBtn" class="primary" style="width:100%;">Finish & View Score</button>
+      <p class="small" style="margin:8px 0 0;">
+        Note: Questions 9 and 21 are short answer. They show feedback and a checklist, but may need teacher review for official scoring.
+      </p>
+    </section>
+  </div>
+
+  <section class="card" id="resultsCard" style="display:none; margin-top:12px;">
+    <h2 style="margin:0;">Your Results</h2>
+    <p class="meta" id="resultsMeta" style="margin:6px 0 0;"></p>
+    <p class="resultBig" id="resultsScore"></p>
+    <div class="feedback fbWarn" id="resultsNote" style="display:none; margin-top:12px;"></div>
+
+    <div class="divider"></div>
+    <button id="restartBtn">Restart</button>
+  </section>
+</div>
+
+<script>
+  const quiz = [
+    {id:1,  type:"mc", passage:"p1", q:"What is the most likely theme of this passage?",
+      choices:{A:"Success comes only from talent", B:"Confidence develops by facing fear", C:"Sports are competitive", D:"Practice guarantees victory"},
+      answer:"B", explain:"Marcus feels doubt but chooses to focus and confront fear; the ending emphasizes personal growth."},
+    {id:2,  type:"mc", passage:"p1", q:"Which quotation BEST supports the theme?",
+      choices:{A:"“Marcus tightened the laces…”", B:"“A murmur rippled through the small crowd.”", C:"“Doubt pressed against him heavier than his bat.”", D:"“He had confronted his fear instead of retreating.”"},
+      answer:"D", explain:"That line directly states he faced fear instead of retreating."},
+    {id:3,  type:"mc", passage:"p1", q:"How does the author develop Marcus’s internal conflict?",
+      choices:{A:"Through dialogue from the sister", B:"By describing Marcus’s physical sensations and thoughts", C:"By explaining baseball rules", D:"Through humor"},
+      answer:"B", explain:"The text shows his thoughts and feelings (heat in his face, doubt, focusing advice)."},
+    {id:4,  type:"mc", passage:"p1", q:"The phrase “doubt pressed against him heavier than his bat” is an example of —",
+      choices:{A:"Simile", B:"Hyperbole", C:"Personification", D:"Metaphor"},
+      answer:"D", explain:"It compares doubt to a heavy pressure without using 'like' or 'as' (metaphor)."},
+    {id:5,  type:"mc", passage:"p1", q:"How does the structure of the passage contribute to its meaning?",
+      choices:{A:"It begins with action to create confusion", B:"It presents a problem and builds tension before resolution", C:"It compares two athletes", D:"It lists events without conflict"},
+      answer:"B", explain:"The passage builds from anxiety and mistakes to a moment of success and reflection."},
+    {id:6,  type:"mc", passage:"p1", q:"What can the reader infer about Marcus at the end?",
+      choices:{A:"He values personal growth more than approval", B:"He dislikes baseball", C:"He expects failure", D:"He blames others"},
+      answer:"A", explain:"He focuses on confronting fear rather than only making the team."},
+    {id:7,  type:"mc", passage:"p1", q:"Which detail contributes MOST to the rising action?",
+      choices:{A:"His sister speaks", B:"He practices for weeks", C:"He misses the first pitch", D:"He walks off the field"},
+      answer:"C", explain:"Missing the first pitch increases tension and builds toward his response and change."},
+    {id:8,  type:"mc", passage:"p1", q:"What is the author’s primary purpose?",
+      choices:{A:"To persuade readers to try out for sports", B:"To explain baseball strategy", C:"To entertain while showing emotional growth", D:"To criticize competition"},
+      answer:"C", explain:"It’s a narrative about a character’s emotions and growth."},
+    {id:9,  type:"open", passage:"p1", q:"Which statement BEST explains how Marcus changes? (Short Constructed Response)\nWrite 2–3 sentences using text evidence.",
+      rubric:[
+        "Explains how Marcus changes from doubt/fear to resolve/confidence.",
+        "Uses at least one specific text detail or quote as evidence.",
+        "Is 2–3 complete sentences and stays focused on the question."
+      ],
+      teacherNote:"Teacher review recommended for official scoring."},
+
+    {id:10, type:"mc", passage:"p2", q:"What is the central idea of the passage?",
+      choices:{A:"Farmers transport bees", B:"Bees are essential to ecosystems and food production", C:"Climate change harms insects", D:"Gardens are beneficial"},
+      answer:"B", explain:"The passage explains how pollination supports food and ecosystems."},
+    {id:11, type:"mc", passage:"p2", q:"Which sentence BEST supports the central idea?",
+      choices:{A:"“Bees may be small…”", B:"“One-third of the food consumed worldwide depends on pollination.”", C:"“Researchers are developing solutions…”", D:"“Farmers transport beehives…”"},
+      answer:"B", explain:"That statistic clearly shows bees’ impact on food production."},
+    {id:12, type:"mc", passage:"p2", q:"What organizational structure does the author primarily use?",
+      choices:{A:"Cause and effect", B:"Chronological", C:"Compare and contrast", D:"Narrative"},
+      answer:"A", explain:"The author explains causes (decline factors) and effects (prices, ecosystems)."},
+    {id:13, type:"mc", passage:"p2", q:"Why does the author include specific examples of crops?",
+      choices:{A:"To entertain", B:"To provide concrete evidence", C:"To show personal opinion", D:"To confuse readers"},
+      answer:"B", explain:"Examples make the claim more specific and convincing."},
+    {id:14, type:"mc", passage:"p2", q:"What does the word “declined” most nearly mean?",
+      choices:{A:"Increased", B:"Celebrated", C:"Decreased", D:"Protected"},
+      answer:"C", explain:"In context, bee populations have gone down."},
+    {id:15, type:"mc", passage:"p2", q:"Which statement best evaluates the author’s argument?",
+      choices:{A:"It lacks supporting evidence", B:"It includes facts and logical reasoning", C:"It relies only on emotional appeals", D:"It exaggerates the issue"},
+      answer:"B", explain:"The author uses facts, examples, and consequences logically."},
+    {id:16, type:"mc", passage:"p2", q:"What inference can be made?",
+      choices:{A:"Humans are unaffected by bee populations", B:"Protecting bees supports economic stability", C:"Pollination harms crops", D:"Farmers dislike bees"},
+      answer:"B", explain:"The passage links bee decline to rising food prices and instability."},
+    {id:17, type:"mc", passage:"p2", q:"How does paragraph 3 contribute to the development of ideas?",
+      choices:{A:"It explains causes and possible consequences", B:"It introduces a new unrelated topic", C:"It repeats earlier information", D:"It provides personal anecdotes"},
+      answer:"A", explain:"It lists reasons for decline and what could happen if it continues."},
+    {id:18, type:"mc", passage:"p2", q:"Which sentence BEST states the author’s purpose?",
+      choices:{A:"To describe bee behavior", B:"To inform readers about the importance of bees", C:"To entertain with a story", D:"To criticize farmers"},
+      answer:"B", explain:"This is an informational passage explaining importance and solutions."},
+
+    {id:19, type:"mc", passage:"none", q:"What is a similarity between Passage 1 and Passage 2?",
+      choices:{A:"Both describe environmental problems", B:"Both show how actions lead to meaningful outcomes", C:"Both are fictional", D:"Both argue a position"},
+      answer:"B", explain:"Marcus’s actions lead to growth; protecting bees leads to stronger food systems."},
+    {id:20, type:"mc", passage:"none", q:"Choose the sentence with correct punctuation.",
+      choices:{A:"Marcus said I am ready.", B:"Marcus said, “I am ready.”", C:"Marcus said “I am ready”.", D:"Marcus, said “I am ready.”"},
+      answer:"B", explain:"Dialogue needs a comma before the quote and punctuation inside the quotation marks."},
+    {id:21, type:"short", passage:"none", q:"Choose the correct verb form and rewrite the sentence.\nMarcus (run / ran) toward first base.",
+      answerText:"ran",
+      explain:"Because the action already happened in the story, past tense is correct: ran."},
+    {id:22, type:"mc", passage:"none", q:"Which transition BEST completes the sentence?\nBees pollinate crops. ______, farmers depend on them.",
+      choices:{A:"However", B:"As a result", C:"Meanwhile", D:"Instead"},
+      answer:"B", explain:"The second sentence is a result of the first."},
+    {id:23, type:"mc", passage:"none", q:"Which revision improves clarity?\nThe bees pollinate flowers they helps plants grow.",
+      choices:{A:"The bees pollinate flowers, and they help plants grow.", B:"The bees pollinate flowers they help plants grow.", C:"The bees, pollinate flowers they help plants grow.", D:"The bees pollinate, flowers they help plants grow."},
+      answer:"A", explain:"It fixes agreement (they help) and adds correct punctuation."},
+    {id:24, type:"mc", passage:"none", q:"Which sentence contains imagery?",
+      choices:{A:"Marcus was nervous.", B:"The ball sliced through the bright afternoon sky.", C:"Bees are important.", D:"Farmers use hives."},
+      answer:"B", explain:"Imagery uses vivid sensory details (bright afternoon sky, sliced through)."},
+  ];
+
+  let idx = 0;
+  const answers = {};
+  const checked = {};
+  const autoScore = {};
+  const needsReviewIds = [9];
+
+  const questionArea = document.getElementById("questionArea");
+  const feedbackArea = document.getElementById("feedbackArea");
+  const prevBtn = document.getElementById("prevBtn");
+  const nextBtn = document.getElementById("nextBtn");
+  const checkBtn = document.getElementById("checkBtn");
+  const finishBtn = document.getElementById("finishBtn");
+  const progressPill = document.getElementById("progressPill");
+  const barFill = document.getElementById("barFill");
+  const sectionLabel = document.getElementById("sectionLabel");
+  const scorePill = document.getElementById("scorePill");
+
+  const resultsCard = document.getElementById("resultsCard");
+  const resultsMeta = document.getElementById("resultsMeta");
+  const resultsScore = document.getElementById("resultsScore");
+  const resultsNote = document.getElementById("resultsNote");
+  const restartBtn = document.getElementById("restartBtn");
+
+  const unlockP1 = document.getElementById("unlockP1");
+  const unlockP2 = document.getElementById("unlockP2");
+
+  function isLocked(q){
+    if(q.passage === "p1") return !unlockP1.checked;
+    if(q.passage === "p2") return !unlockP2.checked;
+    return false;
+  }
+
+  function answeredCount(){
+    return Object.keys(answers).length;
+  }
+
+  function totalCount(){
+    return quiz.length;
+  }
+
+  function updateProgress(){
+    const a = answeredCount();
+    const t = totalCount();
+    progressPill.textContent = `${a} / ${t} answered`;
+    barFill.style.width = `${Math.round((a/t)*100)}%`;
+    sectionLabel.textContent = `Question ${quiz[idx].id} of ${t}`;
+
+    const {earned, possible} = computeAutoScore();
+    scorePill.textContent = (possible === 0) ? "Score: —" : `Score: ${Math.round((earned/possible)*100)}% (auto-graded)`;
+  }
+
+  function computeAutoScore(){
+    let possible = 0;
+    let earned = 0;
+    for(const q of quiz){
+      if(q.type === "open") continue;
+      possible += 1;
+      if(autoScore[q.id] === true) earned += 1;
+    }
+    return {earned, possible};
+  }
+
+  function renderQuestion(){
+    const q = quiz[idx];
+    feedbackArea.innerHTML = "";
+
+    const locked = isLocked(q);
+
+    let html = `
+      <div class="qHead">
+        <div>
+          <div class="qNum">Question ${q.id}</div>
+          <p class="qText">${escapeHtml(q.q).replaceAll("\n","<br>")}</p>
+          ${locked ? `<p class="meta" style="margin:6px 0 0;"><span class="tag warn">Locked</span>Read and check “I have read” for the passage to unlock.</p>` : ""}
+        </div>
+      </div>
+    `;
+
+    if(q.type === "mc"){
+      html += `<div class="choices" role="radiogroup" aria-label="answer choices">`;
+      for(const [letter, text] of Object.entries(q.choices)){
+        const name = `q_${q.id}`;
+        const checkedAttr = answers[q.id] === letter ? "checked" : "";
+        html += `
+          <label class="choice">
+            <input type="radio" name="${name}" value="${letter}" ${checkedAttr} ${locked ? "disabled":""}/>
+            <div><strong>${letter}.</strong> ${escapeHtml(text)}</div>
+          </label>
+        `;
+      }
+      html += `</div>`;
+    } else if(q.type === "short"){
+      const val = answers[q.id] || "";
+      html += `
+        <textarea class="openbox" ${locked ? "disabled":""} placeholder="Type your rewritten sentence here...">${escapeHtml(val)}</textarea>
+        <p class="small" style="margin:8px 0 0;">Tip: Use the correct verb form and rewrite the whole sentence.</p>
+      `;
+    } else if(q.type === "open"){
+      const val = answers[q.id] || "";
+      html += `
+        <textarea class="openbox" ${locked ? "disabled":""} placeholder="Write 2–3 sentences. Use text evidence.">${escapeHtml(val)}</textarea>
+        <div class="feedback fbWarn" style="margin-top:10px;">
+          <span class="tag warn">Checklist</span>
+          <ul style="margin:8px 0 0; padding-left:18px;">
+            ${q.rubric.map(item => `<li>${escapeHtml(item)}</li>`).join("")}
+          </ul>
+          <p class="small" style="margin:10px 0 0;">This response may need teacher review for official scoring.</p>
+        </div>
+      `;
+    }
+
+    questionArea.innerHTML = html;
+
+    prevBtn.disabled = idx === 0;
+    nextBtn.disabled = idx === quiz.length - 1;
+    checkBtn.disabled = locked;
+
+    if(!locked){
+      if(q.type === "mc"){
+        questionArea.querySelectorAll(`input[type="radio"][name="q_${q.id}"]`).forEach(r => {
+          r.addEventListener("change", () => {
+            answers[q.id] = r.value;
+            updateProgress();
+          });
+        });
+      } else {
+        const ta = questionArea.querySelector("textarea");
+        if(ta){
+          ta.addEventListener("input", () => {
+            answers[q.id] = ta.value;
+            updateProgress();
+          });
+        }
+      }
+    }
+
+    if(checked[q.id]) showFeedback();
+    updateProgress();
+  }
+
+  function showFeedback(){
+    const q = quiz[idx];
+    const locked = isLocked(q);
+    if(locked) return;
+
+    const student = answers[q.id];
+
+    if(q.type !== "open" && (!student || String(student).trim() === "")){
+      feedbackArea.innerHTML = `<div class="feedback fbWarn"><span class="tag warn">Missing</span>Please choose or type an answer first.</div>`;
+      return;
+    }
+
+    checked[q.id] = true;
+
+    if(q.type === "mc"){
+      const correct = q.answer;
+      const isCorrect = (student === correct);
+      autoScore[q.id] = isCorrect;
+
+      feedbackArea.innerHTML = `
+        <div class="feedback ${isCorrect ? "fbGood":"fbBad"}">
+          <span class="tag ${isCorrect ? "good":"bad"}">${isCorrect ? "Correct":"Not yet"}</span>
+          ${isCorrect ? `Nice work.` : `Correct answer: <strong>${correct}</strong>.`}
+          <div class="small" style="margin-top:8px;">${escapeHtml(q.explain)}</div>
+        </div>
+      `;
+    } else if(q.type === "short"){
+      const text = String(student).toLowerCase();
+      const isCorrect = text.includes("ran");
+      autoScore[q.id] = isCorrect;
+
+      feedbackArea.innerHTML = `
+        <div class="feedback ${isCorrect ? "fbGood":"fbBad"}">
+          <span class="tag ${isCorrect ? "good":"bad"}">${isCorrect ? "Looks correct":"Check this"}</span>
+          ${escapeHtml(q.explain)}
+          <div class="small" style="margin-top:8px;">
+            Example: <strong>Marcus ran toward first base.</strong>
+          </div>
+        </div>
+      `;
+    } else if(q.type === "open"){
+      feedbackArea.innerHTML = `
+        <div class="feedback fbWarn">
+          <span class="tag warn">Teacher Review</span>
+          Use the checklist above. Make sure you included a specific detail/quote from Passage 1.
+          <div class="small" style="margin-top:8px;">
+            Hint: You can reference the moment he feels doubt, then how he refocuses and swings successfully.
+          </div>
+        </div>
+      `;
+    }
+
+    updateProgress();
+  }
+
+  function finish(){
+    const {earned, possible} = computeAutoScore();
+    const percent = possible === 0 ? 0 : Math.round((earned/possible)*100);
+
+    const reviewNeeded = needsReviewIds.filter(id => {
+      const txt = (answers[id] || "").trim();
+      return txt.length > 0;
+    });
+
+    resultsCard.style.display = "block";
+    resultsMeta.textContent = `Auto-graded score (22 items): ${earned} / ${possible}`;
+    resultsScore.textContent = `${percent}%`;
+
+    if(reviewNeeded.length > 0){
+      resultsNote.style.display = "block";
+      resultsNote.innerHTML = `
+        <span class="tag warn">Note</span>
+        Question(s) ${reviewNeeded.join(", ")} need teacher review for official scoring.
+        This score is <strong>auto-graded only</strong>.
+      `;
+    } else {
+      resultsNote.style.display = "none";
+    }
+
+    resultsCard.scrollIntoView({behavior:"smooth"});
+  }
+
+  function restart(){
+    idx = 0;
+    for(const k of Object.keys(answers)) delete answers[k];
+    for(const k of Object.keys(checked)) delete checked[k];
+    for(const k of Object.keys(autoScore)) delete autoScore[k];
+    unlockP1.checked = false;
+    unlockP2.checked = false;
+    resultsCard.style.display = "none";
+    renderQuestion();
+    window.scrollTo({top:0, behavior:"smooth"});
+  }
+
+  function escapeHtml(str){
+    return String(str)
+      .replaceAll("&","&amp;")
+      .replaceAll("<","&lt;")
+      .replaceAll(">","&gt;")
+      .replaceAll('"',"&quot;")
+      .replaceAll("'","&#039;");
+  }
+
+  prevBtn.addEventListener("click", () => { if(idx>0){ idx--; renderQuestion(); }});
+  nextBtn.addEventListener("click", () => { if(idx<quiz.length-1){ idx++; renderQuestion(); }});
+  checkBtn.addEventListener("click", showFeedback);
+  finishBtn.addEventListener("click", finish);
+  restartBtn.addEventListener("click", restart);
+
+  unlockP1.addEventListener("change", () => renderQuestion());
+  unlockP2.addEventListener("change", () => renderQuestion());
+
+  renderQuestion();
+</script>
+</body>
+</html>
